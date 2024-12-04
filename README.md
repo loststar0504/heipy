@@ -1,9 +1,12 @@
 # heipy
 
-- requirements
+### requirements
+
 ```
 pip install Jpype1
 ```
+
+### setup
 
 1. Install treetagger  
 ```
