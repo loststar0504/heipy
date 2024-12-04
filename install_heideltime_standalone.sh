@@ -11,6 +11,6 @@ bash install-tagger.sh
 popd
 
 original_treetagger_config="SET ME IN CONFIG.PROPS! (e.g., /home/jannik/treetagger)"
-sed -i.bak "s|$original_treetagger_config|$treetagger_path|" libs/config.props
+sed "s|$original_treetagger_config|$treetagger_path|" libs/config.props.bak > libs/config.props
 
 echo "HeidelTime Standalone has been successfully installed."
