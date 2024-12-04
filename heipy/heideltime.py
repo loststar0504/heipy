@@ -1,4 +1,5 @@
 import os
+import time
 import jpype
 import jpype.imports
 from pathlib import Path
@@ -24,11 +25,24 @@ def find_jvm():
 
 
 jvmpath = find_jvm()
+if __name__ == "__main__":
+    print("load heideltime...")
 jpype.startJVM(
     jvmpath,
     classpath=[HEIDELTIME_JAR_PATH],
 )
 
+
+def surpress_java_log():
+    Logger = jpype.JClass("java.util.logging.Logger")
+    Level = jpype.JClass("java.util.logging.Level")
+    logger = Logger.getLogger("")
+    logger.setLevel(Level.SEVERE)
+
+
+surpress_java_log()
+
+# load heideltime classes
 DocumentType = jpype.JClass("de.unihd.dbs.heideltime.standalone.DocumentType")
 HeidelTimeStandalone = jpype.JClass(
     "de.unihd.dbs.heideltime.standalone.HeidelTimeStandalone"
@@ -49,5 +63,19 @@ ht = HeidelTimeStandalone(
     postagger,
     doIntervalTagging=True,
 )
-result = ht.process("the Costa Rican Civil War lasted from 1948-03-12 to 1948-04-24.")
-print(result)
+
+
+def ht_process(text: str) -> str:
+    return ht.process(text)
+
+
+if __name__ == "__main__":
+    import sys
+
+    print("interactive heideltime started!!")
+    print(">", end=" ", flush=True)
+    for line in sys.stdin:
+        result = ht_process(line.strip())
+        print("-----Result-----")
+        print(result)
+        print(">", end=" ", flush=True)
