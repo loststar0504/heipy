@@ -2,36 +2,32 @@ import os
 import platform
 import jpype
 import jpype.imports
+from pathlib import Path
 
-
-def check_java_home():
-    java_home = os.environ.get("JAVA_HOME")
-    if not java_home:
-        raise EnvironmentError(
-            "JAVA_HOME environment variable is not set. Please set JAVA_HOME to point to the Java installation directory."
-        )
-    return os.path.realpath(java_home)
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+HEIDELTIME_JAR_PATH = str(
+    PROJECT_ROOT / "libs" / "de.unihd.dbs.heideltime.standalone.jar"
+)
+CONFIG_PATH = str(PROJECT_ROOT / "libs" / "config.props")
 
 
 def find_jvm():
-    system = platform.system()
-    if system == "Windows":
-        target_ext = ".dll"
-    elif system == "Darwin":  # macOS
-        target_ext = ".dylib"
-    else:  # Linux 및 기타 유닉스 계열
-        target_ext = ".so"
-    jvm_filename = "libjvm" + target_ext
-    java_home = check_java_home()
-    return f"{java_home}/jre/lib/server/{jvm_filename}"
+    # JAVA_HOME 환경 변수 가져오기
+    java_home = os.environ.get("JAVA_HOME")
+    if not java_home:
+        raise EnvironmentError("JAVA_HOME environment variable is not set.")
+    java_home = Path(os.path.realpath(java_home))
+    print(f"JAVA_HOME={java_home}")
+    for jvmpath in java_home.rglob("libjvm.*"):
+        print(f"JVM_PATH={jvmpath}")
+        return str(jvmpath)
+    raise FileNotFoundError("libjvm not found")
 
 
 jvmpath = find_jvm()
 jpype.startJVM(
     jvmpath,
-    classpath=[
-        "/Users/user/hwisang/workspace/heipy/libs/de.unihd.dbs.heideltime.standalone.jar"
-    ],
+    classpath=[HEIDELTIME_JAR_PATH],
 )
 
 from de.unihd.dbs.heideltime.standalone import (
@@ -44,7 +40,7 @@ from de.unihd.dbs.uima.annotator.heideltime.resources import Language
 
 outtype = OutputType.TIMEML
 postagger = POSTagger.TREETAGGER
-conffile = "libs/config.props"
+conffile = CONFIG_PATH
 
 ht = HeidelTimeStandalone(
     Language.ENGLISH,
