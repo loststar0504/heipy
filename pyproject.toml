@@ -7,7 +7,7 @@ readme = "README.md"
 include = [{ path = "typings/**", format = ["sdist"] }]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.9"
 jpype1 = "^1.5.1"
 
 
