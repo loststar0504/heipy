@@ -34,12 +34,6 @@ jpype.startJVM(
 
 
 def surpress_java_log():
-    # disable java stderr
-    System = jpype.JClass("java.lang.System")
-    PrintStream = jpype.JClass("java.io.PrintStream")
-    File = jpype.JClass("java.io.File")
-    System.setErr(PrintStream(File("/dev/null")))
-
     # surpress java log
     Logger = jpype.JClass("java.util.logging.Logger")
     Level = jpype.JClass("java.util.logging.Level")
