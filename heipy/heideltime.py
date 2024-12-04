@@ -1,5 +1,4 @@
 import os
-import platform
 import jpype
 import jpype.imports
 from pathlib import Path
@@ -30,13 +29,13 @@ jpype.startJVM(
     classpath=[HEIDELTIME_JAR_PATH],
 )
 
-from de.unihd.dbs.heideltime.standalone import (
-    DocumentType,
-    HeidelTimeStandalone,
-    OutputType,
-    POSTagger,
+DocumentType = jpype.JClass("de.unihd.dbs.heideltime.standalone.DocumentType")
+HeidelTimeStandalone = jpype.JClass(
+    "de.unihd.dbs.heideltime.standalone.HeidelTimeStandalone"
 )
-from de.unihd.dbs.uima.annotator.heideltime.resources import Language
+OutputType = jpype.JClass("de.unihd.dbs.heideltime.standalone.OutputType")
+POSTagger = jpype.JClass("de.unihd.dbs.heideltime.standalone.POSTagger")
+Language = jpype.JClass("de.unihd.dbs.uima.annotator.heideltime.resources.Language")
 
 outtype = OutputType.TIMEML
 postagger = POSTagger.TREETAGGER
