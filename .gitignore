@@ -162,5 +162,5 @@ cython_debug/
 #.idea/
 
 # treetagger
-libs/treetagger
-libs/config.props
+heipy/libs/treetagger
+heipy/libs/config.props

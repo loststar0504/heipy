@@ -4,7 +4,7 @@ import jpype
 import jpype.imports
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[0]
 HEIDELTIME_JAR_PATH = str(
     PROJECT_ROOT / "libs" / "de.unihd.dbs.heideltime.standalone.jar"
 )
@@ -27,6 +27,8 @@ def find_jvm():
 jvmpath = find_jvm()
 if __name__ == "__main__":
     print("load heideltime...")
+print(f"heideltime classpath: {HEIDELTIME_JAR_PATH}")
+print(f"config_path: {CONFIG_PATH}")
 jpype.startJVM(
     jvmpath,
     classpath=[HEIDELTIME_JAR_PATH],
