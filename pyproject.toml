@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["hwisang.jeon <hwisang.jeon@navercorp.com>"]
 readme = "README.md"
+include = [{ path = "heipy/libs/**/*", format = ["sdist", "wheel"] }]
 
 [tool.poetry.dependencies]
 python = "^3.9"
