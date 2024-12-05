@@ -29,6 +29,7 @@ if __name__ == "__main__":
     print("load heideltime...")
 print(f"heideltime classpath: {HEIDELTIME_JAR_PATH}")
 print(f"config_path: {CONFIG_PATH}")
+
 jpype.startJVM(
     jvmpath,
     classpath=[HEIDELTIME_JAR_PATH],
@@ -40,7 +41,7 @@ def surpress_java_log():
     Logger = jpype.JClass("java.util.logging.Logger")
     Level = jpype.JClass("java.util.logging.Level")
     logger = Logger.getLogger("")
-    logger.setLevel(Level.SEVERE)
+    logger.setLevel(Level.WARNING)
 
 
 surpress_java_log()
